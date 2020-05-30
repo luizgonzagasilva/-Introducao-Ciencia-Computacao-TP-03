@@ -41,7 +41,8 @@ int main()
     char linha1[] = "A1,B1,B2";
     char linha2[] = "B1,C1,X";
     char linha3[] = "B2,X,S1";
-    char linha4[] = "C1,D1,D2";
+    //char linha4[] = "C1,D1,D2";
+    char linha4[] = "C1,X,X";
 
     separaNodes(&no_linha, linha1);
     insere_ArvBin(raiz, no_linha);
