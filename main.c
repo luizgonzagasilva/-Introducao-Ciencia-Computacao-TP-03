@@ -31,18 +31,21 @@ void separaNodes(Linha *no_linha, char linha[100]){
 }
 
 
-int main()
-{
+int main(){
 
     FILE *pont_arq;
     ArvBin* raiz = cria_ArvBin();
     Linha no_linha;
-    char linha[100];
+    char linha[1024];
 
     pont_arq = fopen("dados.txt", "r");
 
-    while(fgets(linha, 100, pont_arq) != NULL){
-        printf("%s\n",linha);
+    while(fgets(linha, sizeof(linha), pont_arq) != NULL){
+        /* Remove a nova linha (\n), caso ela tenha sido lida pelo fgets */
+		int indiceUltimoCaractere = strlen(linha) - 1;
+		if(linha[indiceUltimoCaractere] == '\n') {
+			linha[indiceUltimoCaractere] = '\0';
+		}
         separaNodes(&no_linha, linha);
         insere_ArvBin(raiz, no_linha);
     }
@@ -53,4 +56,5 @@ int main()
     system("Pause");
 
     return 0;
+
 }

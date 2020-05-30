@@ -107,10 +107,7 @@ void visitaNodes(ArvBin* raiz){
     ArvBin* sub_dir = cria_ArvBin();
     char node[50];
     char esqDir[50];
-    int qtd_nodes=0;
-
-    esqDir[0]='F';
-    esqDir[1]='\0';
+    int i=0,qtd_nodes=0;
 
     // avalia a raiz
     if (*raiz==NULL){
@@ -121,18 +118,23 @@ void visitaNodes(ArvBin* raiz){
 
     // avalia sub-arvore esquerda
     if (atual->esq!=NULL){
-        esqDir[0]='E';
+        esqDir[i]='E';
+        esqDir[i+1]='\0';
+        i++;
         qtd_nodes++;
         *sub_esq = atual->esq;
     }
 
     // avalia sub-arvore direita
     if (atual->dir!=NULL){
-        esqDir[1]='D';
-        esqDir[2]='\0';
+        esqDir[i]='D';
+        esqDir[i+1]='\0';
+        i++;
         qtd_nodes++;
         *sub_dir = atual->dir;
     }
+    if (qtd_nodes==0)
+        esqDir[i]='F';
 
     // remove caracter invalido
     int n = strlen(node);
