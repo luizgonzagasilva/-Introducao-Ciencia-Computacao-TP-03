@@ -101,3 +101,43 @@ int insere_ArvBin(ArvBin* raiz, Linha no_linha){
 }
 
 
+void visitaNodes(ArvBin* raiz){
+    struct NO* atual = *raiz;
+    ArvBin* sub_esq = cria_ArvBin();
+    ArvBin* sub_dir = cria_ArvBin();
+    char node[50];
+    char esqDir[50];
+    int qtd_nodes=0;
+
+    esqDir[0]='F';
+    esqDir[1]='\0';
+
+    // avalia a raiz
+    if (*raiz==NULL){
+        return;
+    }
+
+    strcpy(node, atual->info);
+
+    // avalia sub-arvore esquerda
+    if (atual->esq!=NULL){
+        esqDir[0]='E';
+        qtd_nodes++;
+        *sub_esq = atual->esq;
+    }
+
+    // avalia sub-arvore direita
+    if (atual->dir!=NULL){
+        esqDir[1]='D';
+        esqDir[2]='\0';
+        qtd_nodes++;
+        *sub_dir = atual->dir;
+    }
+
+    // remove caracter invalido
+    int n = strlen(node);
+    node[n-1]='\0';
+    printf("%s %d %s\n", node, qtd_nodes, esqDir);
+    visitaNodes(sub_esq);
+    visitaNodes(sub_dir);
+}

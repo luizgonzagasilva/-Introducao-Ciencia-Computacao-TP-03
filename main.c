@@ -3,145 +3,61 @@
 #include "ArvoreBinaria.h"
 
 
+void separaNodes(Linha *no_linha, char linha[100]){
+    int n = strlen(linha);
+    int j=0, pos_linha=1;
+    for (int i=0; i<n; i++){
+        if (linha[i]!=',' && pos_linha==1){
+            no_linha->raiz[j] = linha[i];
+            no_linha->raiz[j+1] = "\0";
+            j++;
+        }
+        else if (linha[i]!=',' && pos_linha==2){
+            no_linha->esq[j] = linha[i];
+            no_linha->esq[j+1] = "\0";
+            j++;
+        }
+        else if (linha[i]!=',' && pos_linha==3){
+            no_linha->dir[j] = linha[i];
+            no_linha->dir[j+1] = "\0";
+            j++;
+        }
+        else {
+            pos_linha++;
+            j=0;
+        }
+    }
+
+}
+
+
 int main()
 {
 
     ArvBin* raiz = cria_ArvBin();
+    Linha no_linha;
 
     //fgets(linha,10,stdin);
-    char linha[] = "A1,B1,B2";
+    char linha1[] = "A1,B1,B2";
+    char linha2[] = "B1,C1,X";
+    char linha3[] = "B2,X,S1";
+    char linha4[] = "C1,D1,D2";
 
-    int n = strlen(linha);
-
-    //char raiz[100], esq[100], dir[100];
-    Linha no_linha;
-    int j=0, pos_linha=1;
-    for (int i=0; i<n; i++){
-        if (linha[i]!=',' && pos_linha==1){
-            no_linha.raiz[j] = linha[i];
-            no_linha.raiz[j+1] = "\n";
-            j++;
-        }
-        else if (linha[i]!=',' && pos_linha==2){
-            no_linha.esq[j] = linha[i];
-            no_linha.esq[j+1] = "\n";
-            j++;
-        }
-        else if (linha[i]!=',' && pos_linha==3){
-            no_linha.dir[j] = linha[i];
-            no_linha.dir[j+1] = "\n";
-            j++;
-        }
-        else {
-            pos_linha++;
-            j=0;
-        }
-    }
-
-    printf("raiz: %s\n", no_linha.raiz);
-    printf("esquerda: %s\n", no_linha.esq);
-    printf("direita: %s\n", no_linha.dir);
-
+    separaNodes(&no_linha, linha1);
     insere_ArvBin(raiz, no_linha);
 
+    separaNodes(&no_linha, linha2);
+    insere_ArvBin(raiz, no_linha);
 
-    char linha2[] = "B1,C1,X";
+    separaNodes(&no_linha, linha3);
+    insere_ArvBin(raiz, no_linha);
 
-    n = strlen(linha2);
-    Linha no_linha2;
-    j=0, pos_linha=1;
-    for (int i=0; i<n; i++){
-        if (linha2[i]!=',' && pos_linha==1){
-            no_linha2.raiz[j] = linha2[i];
-            no_linha2.raiz[j+1] = "\n";
-            j++;
-        }
-        else if (linha2[i]!=',' && pos_linha==2){
-            no_linha2.esq[j] = linha2[i];
-            no_linha2.esq[j+1] = "\n";
-            j++;
-        }
-        else if (linha2[i]!=',' && pos_linha==3){
-            no_linha2.dir[j] = linha2[i];
-            no_linha2.dir[j+1] = "\n";
-            j++;
-        }
-        else {
-            pos_linha++;
-            j=0;
-        }
-    }
+    separaNodes(&no_linha, linha4);
+    insere_ArvBin(raiz, no_linha);
 
-    printf("raiz: %s\n", no_linha2.raiz);
-    printf("esquerda: %s\n", no_linha2.esq);
-    printf("direita: %s\n", no_linha2.dir);
-
-    insere_ArvBin(raiz, no_linha2);
-
-
-    char linha3[] = "B2,X,S1";
-
-    n = strlen(linha3);
-    Linha no_linha3;
-    j=0, pos_linha=1;
-    for (int i=0; i<n; i++){
-        if (linha3[i]!=',' && pos_linha==1){
-            no_linha3.raiz[j] = linha3[i];
-            no_linha3.raiz[j+1] = "\n";
-            j++;
-        }
-        else if (linha3[i]!=',' && pos_linha==2){
-            no_linha3.esq[j] = linha3[i];
-            no_linha3.esq[j+1] = "\n";
-            j++;
-        }
-        else if (linha3[i]!=',' && pos_linha==3){
-            no_linha3.dir[j] = linha3[i];
-            no_linha3.dir[j+1] = "\n";
-            j++;
-        }
-        else {
-            pos_linha++;
-            j=0;
-        }
-    }
-
-    printf("raiz: %s\n", no_linha3.raiz);
-    printf("esquerda: %s\n", no_linha3.esq);
-    printf("direita: %s\n", no_linha3.dir);
-
-    insere_ArvBin(raiz, no_linha3);
-
+    visitaNodes(raiz);
 
     system("Pause");
-
-    /*
-    ArvBin* raiz = cria_ArvBin();
-
-    int i;
-    for(i=0; i < N; i++)
-        insere_ArvBin(raiz,dados[i]);
-
-    printf("Dados:\n");
-    emOrdem_ArvBin(raiz);
-
-    system("Pause");
-
-    printf("\n");
-    printf("Percurso:\n");
-    Exibe_emOrdem_ArvBin(raiz);
-
-    system("Pause");
-    printf("\n");
-
-    i=0;
-    Procura_preOrdem_ArvBin(raiz,45, &i);
-    if (i==0) printf ("Nao Achou! \n");
-
-    system("Pause");
-
-    libera_ArvBin(raiz);
-    */
 
     return 0;
 }
