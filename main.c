@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "ArvoreBinaria.h"
 
 
@@ -38,7 +39,7 @@ int main(){
     Linha no_linha;
     char linha[1024];
 
-    pont_arq = fopen("dados1.txt", "r");
+    pont_arq = fopen("dados2.txt", "r");
 
     while(fgets(linha, sizeof(linha), pont_arq) != NULL){
         /* Remove a nova linha (\n), caso ela tenha sido lida pelo fgets */
@@ -57,6 +58,7 @@ int main(){
     printf("TNd %d\n",TNd);
 
     fclose(pont_arq);
+    libera_ArvBin(raiz);
     system("Pause");
 
     return 0;

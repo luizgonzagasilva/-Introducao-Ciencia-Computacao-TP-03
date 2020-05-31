@@ -34,7 +34,6 @@ void libera_ArvBin(ArvBin* raiz){
     free(raiz);//libera a raiz
 }
 
-
 int insere_ArvBin(ArvBin* raiz, Linha no_linha){
     if(raiz == NULL)
         return 0;
@@ -103,7 +102,6 @@ int insere_ArvBin(ArvBin* raiz, Linha no_linha){
 
     return 1;
 }
-
 
 void visitaNodes(ArvBin* raiz, int *pTNv, int *pTSd, int *pTNd){
     struct NO* atual = *raiz;
