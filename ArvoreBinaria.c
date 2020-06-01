@@ -10,7 +10,6 @@ struct NO{
     struct NO *dir;
 };
 
-
 ArvBin* cria_ArvBin(){
     ArvBin* raiz = (ArvBin*) malloc(sizeof(ArvBin));
     if(raiz != NULL)
@@ -74,7 +73,6 @@ int insere_ArvBin(ArvBin* raiz, Linha no_linha){
         ArvBin* sub_dir = cria_ArvBin();
 
         // se nao encontra valor entra em recursao
-        //printf("no_linha.raiz: %s(%d), atual->info: %s(%d)\n",no_linha.raiz, strlen(no_linha.raiz), atual->info, strlen(atual->info));
         int nao_achou = strcmp(no_linha.raiz, atual->info);
         if (nao_achou){
             *sub_esq = atual->esq;
@@ -103,7 +101,7 @@ int insere_ArvBin(ArvBin* raiz, Linha no_linha){
     return 1;
 }
 
-void visitaNodes(ArvBin* raiz, int *pTNv, int *pTSd, int *pTNd){
+void visita_ArvBin(ArvBin* raiz, int *pTNv, int *pTSd, int *pTNd){
     struct NO* atual = *raiz;
     ArvBin* sub_esq = cria_ArvBin();
     ArvBin* sub_dir = cria_ArvBin();
@@ -152,7 +150,34 @@ void visitaNodes(ArvBin* raiz, int *pTNv, int *pTSd, int *pTNd){
         *pTSd = *pTSd + 1;
 
     printf("%s %d %s\n", node, qtd_nodes, esqDir);
-    visitaNodes(sub_esq, pTNv, pTSd, pTNd);
-    visitaNodes(sub_dir, pTNv, pTSd, pTNd);
+    visita_ArvBin(sub_esq, pTNv, pTSd, pTNd);
+    visita_ArvBin(sub_dir, pTNv, pTSd, pTNd);
+
+}
+
+void separa_Linha(Linha *no_linha, char linha[1024]){
+    int n = strlen(linha);
+    int j=0, pos_linha=1;
+    for (int i=0; i<n; i++){
+        if (linha[i]!=',' && pos_linha==1){
+            no_linha->raiz[j] = linha[i];
+            no_linha->raiz[j+1] = '\0';
+            j++;
+        }
+        else if (linha[i]!=',' && pos_linha==2){
+            no_linha->esq[j] = linha[i];
+            no_linha->esq[j+1] = '\0';
+            j++;
+        }
+        else if (linha[i]!=',' && pos_linha==3){
+            no_linha->dir[j] = linha[i];
+            no_linha->dir[j+1] = '\0';
+            j++;
+        }
+        else {
+            pos_linha++;
+            j=0;
+        }
+    }
 
 }
