@@ -1,0 +1,10 @@
+RAIZ,Filho1Esq,Filho1Dir
+Filho1Dir,X,Filho2Dir
+Filho2Dir,X,Filho3Dir
+Filho3Dir,S3,S4
+Filho1Esq,S1,S2
+S1,X,X
+S2,X,X
+S3,X,X
+S4,X,X
+X,X,X
