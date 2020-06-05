@@ -14,7 +14,7 @@ void libera_ArvBin(ArvBin *raiz);
 int insere_ArvBin(ArvBin* raiz, Linha no_linha);
 void visitaNodes(ArvBin* raiz, int *pTNv, int *pTSd, int *pTNd);
 
-int TNv_esq=0, TNv_dir=0, TNv=0;
+int TNv=0;
 
 struct NO{
     char info[100];
@@ -79,13 +79,17 @@ int insere_ArvBin(ArvBin* raiz, Linha no_linha){
     // proximos nós a ser inserido na arvore
     else{
         struct NO* atual = *raiz;
-        struct NO* ant = NULL;
 
         ArvBin* sub_esq = cria_ArvBin();
         ArvBin* sub_dir = cria_ArvBin();
 
         // se nao encontra valor entra em recursao
+		
+		
         int nao_achou = strcmp(no_linha.raiz, atual->info);
+		
+		// printf("no_linha.raiz: %s - atual->info: %s - achou: %d\n", no_linha.raiz, atual->info, nao_achou);
+		// printf("no_linha.raiz: %s - atual->info: %s - achou: %d\n", no_linha.raiz, utfstring[i], atual->info, nao_achou);
         if (nao_achou){
             *sub_esq = atual->esq;
             *sub_dir = atual->dir;
@@ -135,7 +139,6 @@ void visita_ArvBin(ArvBin* raiz, int *pTNv, int *pTSd, int *pTNd){
         TNv = TNv + 1;
         // avalia sub-arvore esquerda
         if (atual->esq!=NULL){
-            TNv_esq = TNv_esq + 1;
             esqDir[i]='E';
             esqDir[i+1]='\0';
             i++;
@@ -144,7 +147,6 @@ void visita_ArvBin(ArvBin* raiz, int *pTNv, int *pTSd, int *pTNd){
         }
         // avalia sub-arvore direita
         if (atual->dir!=NULL){
-            TNv_dir = TNv_dir + 1;
             esqDir[i]='D';
             esqDir[i+1]='\0';
             i++;
@@ -194,6 +196,16 @@ void separa_Linha(Linha *no_linha, char linha[1024]){
 
 }
 
+void remove_spaces(char* s) {
+    const char* d = s;
+    do {
+        while (*d == ' ' || *d == '\t' || *d == '\n' || *d == '\r') {
+            ++d;
+        }
+		//printf("caracter: %c - encode: %d\n", *d, *d);
+    } while ((*s++ = *d++));
+}
+
 
 int main(){
 
@@ -201,17 +213,51 @@ int main(){
     ArvBin* raiz = cria_ArvBin();
     Linha no_linha;
     char linha[1024];
+	
 
     pont_arq = fopen("dados.txt", "r");
 
     while(fgets(linha, sizeof(linha), pont_arq) != NULL){
-        /* Remove a nova linha (\n), caso ela tenha sido lida pelo fgets */
-		int indiceUltimoCaractere = strlen(linha) - 1;
-		if(linha[indiceUltimoCaractere] == '\n') {
-			linha[indiceUltimoCaractere] = '\0';
-		}
+		// printf("linha raiz: %s\n", linha);
+
+		int tam_linha = strlen(linha);
+        for (int i=0; i<tam_linha; i++) {
+			// printf("posicao: %d - caracter: %c - encode: %d\n", i, linha[i], linha[i]);
+            if(linha[i] == '\n') {
+                linha[i] = '\0';
+            }
+        }
+		
+		//printf("entrada: %s\n",linha);
+		remove_spaces(linha);
+				
         separa_Linha(&no_linha, linha);
+
+		remove_spaces(no_linha.raiz);
+		
+		tam_linha = strlen(no_linha.raiz);
+        for (int i=0; i<tam_linha+10; i++) {
+            if(no_linha.raiz[i] == '\n') {
+                no_linha.raiz[i] = '\0';
+            }
+        }
+		
+		tam_linha = strlen(no_linha.esq);
+        for (int i=0; i<tam_linha+10; i++) {
+            if(no_linha.esq[i] == '\n') {
+                no_linha.esq[i] = '\0';
+            }
+        }
+		
+		tam_linha = strlen(no_linha.dir);
+        for (int i=0; i<tam_linha+10; i++) {
+            if(no_linha.dir[i] == '\n') {
+                no_linha.dir[i] = '\0';
+            }
+        }
+
         insere_ArvBin(raiz, no_linha);
+		
     }
 
     int TNv=0, TSd=0, TNd=0;
@@ -222,8 +268,6 @@ int main(){
 
     fclose(pont_arq);
     libera_ArvBin(raiz);
-    system("Pause");
-
     return 0;
 
 }

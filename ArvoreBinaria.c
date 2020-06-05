@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "ArvoreBinaria.h" //inclui os Protótipos
 
-int TNv_esq=0, TNv_dir=0, TNv=0;
+int TNv=0;
 
 struct NO{
     char info[100];
@@ -67,7 +67,6 @@ int insere_ArvBin(ArvBin* raiz, Linha no_linha){
     // proximos nós a ser inserido na arvore
     else{
         struct NO* atual = *raiz;
-        struct NO* ant = NULL;
 
         ArvBin* sub_esq = cria_ArvBin();
         ArvBin* sub_dir = cria_ArvBin();
@@ -123,7 +122,6 @@ void visita_ArvBin(ArvBin* raiz, int *pTNv, int *pTSd, int *pTNd){
         TNv = TNv + 1;
         // avalia sub-arvore esquerda
         if (atual->esq!=NULL){
-            TNv_esq = TNv_esq + 1;
             esqDir[i]='E';
             esqDir[i+1]='\0';
             i++;
@@ -132,7 +130,6 @@ void visita_ArvBin(ArvBin* raiz, int *pTNv, int *pTSd, int *pTNd){
         }
         // avalia sub-arvore direita
         if (atual->dir!=NULL){
-            TNv_dir = TNv_dir + 1;
             esqDir[i]='D';
             esqDir[i+1]='\0';
             i++;
@@ -180,4 +177,16 @@ void separa_Linha(Linha *no_linha, char linha[1024]){
         }
     }
 
+}
+
+char removeNewLine(char linha[1024]){
+    /* Remove a nova linha (\n), caso ela tenha sido lida pelo fgets */
+    //int indiceUltimoCaractere = strlen(linha) - 1;
+    int tam_linha = strlen(linha)+10;
+    for (int i=0; i==tam_linha; i++) {
+        if(linha[i] == '\n') {
+            linha[i] = '\0';
+        }
+    }
+    return linha;
 }
