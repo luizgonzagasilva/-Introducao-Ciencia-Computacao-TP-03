@@ -84,10 +84,10 @@ int insere_ArvBin(ArvBin* raiz, Linha no_linha){
         ArvBin* sub_dir = cria_ArvBin();
 
         // se nao encontra valor entra em recursao
-		
-		
+
+
         int nao_achou = strcmp(no_linha.raiz, atual->info);
-		
+
 		// printf("no_linha.raiz: %s - atual->info: %s - achou: %d\n", no_linha.raiz, atual->info, nao_achou);
 		// printf("no_linha.raiz: %s - atual->info: %s - achou: %d\n", no_linha.raiz, utfstring[i], atual->info, nao_achou);
         if (nao_achou){
@@ -134,7 +134,10 @@ void visita_ArvBin(ArvBin* raiz, int *pTNv, int *pTSd, int *pTNd){
     // numero total de nos
     *pTNd = *pTNd + 1;
     strcpy(node, atual->info);
+    if (atual->info!=NULL && TNv==0 && (atual->esq!=NULL || atual->dir!=NULL) )
+      TNv = TNv + 1;
 
+    //printf("atual->info: %s - TNv: %d\n", atual->info, TNv);
     if (atual->esq!=NULL || atual->dir!=NULL){
         TNv = TNv + 1;
         // avalia sub-arvore esquerda
@@ -157,6 +160,7 @@ void visita_ArvBin(ArvBin* raiz, int *pTNv, int *pTSd, int *pTNd){
     // se nao possui nodes entao eh um no folha
     if (qtd_nodes==0){
         esqDir[i]='F';
+        esqDir[i+1]='\0';
     }
 
     // numero de nos saida("S")
@@ -166,6 +170,7 @@ void visita_ArvBin(ArvBin* raiz, int *pTNv, int *pTSd, int *pTNd){
     printf("%s %d %s\n", node, qtd_nodes, esqDir);
     visita_ArvBin(sub_esq, pTNv, pTSd, pTNd);
     visita_ArvBin(sub_dir, pTNv, pTSd, pTNd);
+    TNv=*pTNv-1;
 
 }
 
@@ -206,14 +211,13 @@ void remove_spaces(char* s) {
     } while ((*s++ = *d++));
 }
 
-
 int main(){
 
     FILE *pont_arq;
     ArvBin* raiz = cria_ArvBin();
     Linha no_linha;
     char linha[1024];
-	
+
 
     pont_arq = fopen("dados.txt", "r");
 
@@ -227,28 +231,28 @@ int main(){
                 linha[i] = '\0';
             }
         }
-		
+
 		//printf("entrada: %s\n",linha);
 		remove_spaces(linha);
-				
+
         separa_Linha(&no_linha, linha);
 
 		remove_spaces(no_linha.raiz);
-		
+
 		tam_linha = strlen(no_linha.raiz);
         for (int i=0; i<tam_linha+10; i++) {
             if(no_linha.raiz[i] == '\n') {
                 no_linha.raiz[i] = '\0';
             }
         }
-		
+
 		tam_linha = strlen(no_linha.esq);
         for (int i=0; i<tam_linha+10; i++) {
             if(no_linha.esq[i] == '\n') {
                 no_linha.esq[i] = '\0';
             }
         }
-		
+
 		tam_linha = strlen(no_linha.dir);
         for (int i=0; i<tam_linha+10; i++) {
             if(no_linha.dir[i] == '\n') {
@@ -257,11 +261,14 @@ int main(){
         }
 
         insere_ArvBin(raiz, no_linha);
-		
+
     }
 
     int TNv=0, TSd=0, TNd=0;
     visita_ArvBin(raiz, &TNv, &TSd, &TNd);
+    if (TNd>1 && TNv==1)
+        TNv++;
+
     printf("TNv %d\n",TNv);
     printf("TSd %d\n",TSd);
     printf("TNd %d\n",TNd);

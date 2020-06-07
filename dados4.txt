@@ -1,0 +1,3 @@
+Raiz,Filho1,Filho2
+Filho1,X,X
+Filho2,X,X

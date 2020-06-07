@@ -1,0 +1,6 @@
+A1,B1,B2 	
+B1,C1,X
+B2,X,S1
+C1,X,X
+S1,X,X
+X,X,X
